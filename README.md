@@ -1,3 +1,6 @@
+[![Code Climate](https://codeclimate.com/github/vaihtovirta/bicycle_orm/badges/gpa.svg)](https://codeclimate.com/github/vaihtovirta/bicycle_orm)
+[![Build Status](https://travis-ci.org/vaihtovirta/bicycle_orm.svg)](https://travis-ci.org/vaihtovirta/bicycle_orm)
+
 # BicycleOrm
 
 Bicycle reinvented.
