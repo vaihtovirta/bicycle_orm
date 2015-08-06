@@ -2,6 +2,8 @@
 
 Bicycle reinvented.
 
+Tiny gem that demonstrating simple ORM realizaition.
+
 ## Installation
 
 Add this line to your application's Gemfile:
