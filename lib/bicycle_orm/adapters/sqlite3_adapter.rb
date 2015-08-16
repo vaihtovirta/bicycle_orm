@@ -2,33 +2,37 @@ require 'sqlite3'
 
 module BicycleOrm
   class Sqlite3Adapter
+    attr_reader :column_names
+
     def initialize(db, table)
       @db = connection(db)
       @table = table
+      @column_names = columns
     end
 
     def find(id)
       record = @db.execute %( select * from #{@table} where Id = #{id} )
 
-      record.empty? ? {} : Hash[column_names.map(&:to_sym).zip record.flatten!]
-    end
+      record_not_found if record.empty?
 
-    def column_names
-      (@db.query %( select * from #{@table} )).columns
+      record_to_hash(record)
     end
 
     def create(attributes)
       keys = attributes.keys.join(', ')
-      values = attributes.values.join(', ')
+      values = attributes.values.map { |value| "'#{value}'" } * ', '
 
-      @db.execute %( insert into #{@table} (#{keys}) values ('#{values}') )
+      @db.execute %( insert into #{@table} (#{keys}) values (#{values}) )
     end
 
     def find_by(hash)
       record = @db.execute %( select * from #{@table}
                               where #{hash.keys.join} = '#{hash.values.join}'
                               limit 1 )
-      Hash[column_names.map(&:to_sym).zip record.flatten!]
+
+      record_not_found if record.empty?
+
+      record_to_hash(record)
     end
 
     def delete!(id)
@@ -36,11 +40,23 @@ module BicycleOrm
     end
 
     def count
-      count = @db.execute %{ select Count(Id) from #{@table} }
+      count = @db.execute %( select Count(Id) from #{@table} )
       count.flatten.join.to_i
     end
 
     private
+
+    def record_to_hash(record)
+      Hash[column_names.map(&:to_sym).zip record.flatten!]
+    end
+
+    def columns
+      (@db.query %( select * from #{@table} )).columns
+    end
+
+    def record_not_found
+      fail BicycleOrm::AdapterRecordNotFound, 'record not found'
+    end
 
     def connection(db)
       SQLite3::Database.new("#{db}.db")
