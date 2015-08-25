@@ -51,7 +51,7 @@ module BicycleOrm
     end
 
     def columns
-      (@db.query %( select * from #{@table} )).columns
+      (@db.execute %( PRAGMA table_info(#{@table}) )).map { |item| item[1] }
     end
 
     def record_not_found
