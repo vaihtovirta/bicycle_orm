@@ -11,11 +11,18 @@ task :reset_db do
   db.execute <<-SQL
     create table users (
       id integer primary key,
-      name varchar(30)
+      name varchar(30),
+      occupation varchar(30),
+      age integer
     );
   SQL
 
-  %w(Friedrich Albert Franz).each do |name|
-    db.execute 'insert into users (name) values ( ? )', name
+  people = [%w(Friedrich philosopher 55),
+            %w(Albert physicist 76),
+            %w(Franz writer 40)]
+
+  people.each do |triple|
+    db.execute %( insert into users (name, occupation, age)
+                  values ( '#{triple[0]}', '#{triple[1]}', '#{triple[2]}') )
   end
 end
