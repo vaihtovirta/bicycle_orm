@@ -5,7 +5,6 @@ require 'bicycle_orm/version'
 require 'bicycle_orm/model'
 require 'bicycle_orm/exceptions'
 require 'bicycle_orm/adapters/sqlite3_adapter'
-require 'pry'
 
 module BicycleOrm
 end

@@ -9,9 +9,9 @@ Gem::Specification.new do |spec|
   spec.authors       = ['Emil Shakirov']
   spec.email         = ['5o.smoker@gmail.com']
 
-  spec.summary       = 'TODO: Write a short summary, because Rubygems requires one.'
-  spec.description   = 'TODO: Write a longer description or delete this line.'
-  spec.homepage      = 'github.com/vaihtovirta/bicycle_orm'
+  spec.summary       = 'Tiny gem that demonstrating simple ORM realizaition.'
+  spec.description   = 'Tiny gem that demonstrating simple ORM realizaition.'
+  spec.homepage      = 'https://github.com/vaihtovirta/bicycle_orm'
   spec.license       = 'MIT'
 
   spec.files         = `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(test|spec|features)/}) }
@@ -19,10 +19,11 @@ Gem::Specification.new do |spec|
   spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = ['lib']
 
+  spec.add_runtime_dependency 'activesupport-inflector'
+  spec.add_runtime_dependency 'i18n'
+
   spec.add_development_dependency 'bundler', '~> 1.9'
   spec.add_development_dependency 'rake', '~> 10.0'
   spec.add_development_dependency 'minitest'
-  spec.add_development_dependency 'activesupport-inflector'
-  spec.add_development_dependency 'i18n'
-  spec.add_development_dependency 'require_all'
+  spec.add_development_dependency 'sqlite3'
 end
